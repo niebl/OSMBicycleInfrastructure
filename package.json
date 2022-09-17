@@ -1,0 +1,24 @@
+{
+  "name": "OSMBicycleInfrastructure",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/lorenzomorning/OSMBicycleInfrastructure",
+  "author": "lorenzomorning <lorenzbeck11@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@turf/area": "^6.5.0",
+    "@turf/boolean-within": "^6.5.0",
+    "@turf/buffer": "^6.5.0",
+    "@turf/centroid": "^6.5.0",
+    "@turf/difference": "^6.5.0",
+    "@turf/flatten": "^6.5.0",
+    "@turf/intersect": "^6.5.0",
+    "@turf/length": "^6.5.0",
+    "@turf/line-split": "^6.5.0",
+    "@turf/point-on-feature": "^6.5.0",
+    "@turf/union": "^6.5.0",
+    "node-fetch": "^3.2.10",
+    "osmtogeojson": "^3.0.0-beta.4"
+  }
+}
