@@ -16,7 +16,7 @@ import {
 } from "./bicycleinfrastructureHelpers/helperFunctions.js";
 
 async function getOSM(ENDPOINT_BI, ENDPOINT_NW, ENDPOINT_AA) {
-  // appraoch API BI
+  // appraoch API for Bicycle Infrastructure (BI) Data
   console.log("start API-Request BI data...");
   let responseBi = await fetch(ENDPOINT_BI);
   let dataBi = await responseBi.json();
@@ -36,7 +36,7 @@ async function getOSM(ENDPOINT_BI, ENDPOINT_NW, ENDPOINT_AA) {
   geojsonBiType = addAttributes(geojsonBiType);
   console.log("finished preprocessing BI data...");
 
-  // appraoch API NW
+  // appraoch API for Network (NW) Data
   console.log("start API-Request NW data...");
   let responseNw = await fetch(ENDPOINT_NW);
   let dataNw = await responseNw.json();
@@ -47,7 +47,7 @@ async function getOSM(ENDPOINT_BI, ENDPOINT_NW, ENDPOINT_AA) {
   geojsonBiType = appendNWtoBI(geojsonNw, geojsonBiType);
   console.log("finished preprocessing NW data...");
 
-  // approach API AA
+  // approach Overpass-API for Administrative Area (AA) Data
   console.log("start API-Request AA data...");
   let responseAa = await fetch(ENDPOINT_AA);
   let dataAa = await responseAa.json();

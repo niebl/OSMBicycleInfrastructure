@@ -164,7 +164,7 @@ export function addBikeInfrastructureType(dataBi) {
 }
 
 /**
- * duplicatePolygonstoPoint duplicates Ppolygon Features to Point Feature by
+ * duplicatePolygonstoPoint duplicates Polygon Features to Point Feature by
  * changing their geometry to Points
  * @param {geoJSON} FeatureCollection
  * @returns {geoJSON} FeatureCollection
