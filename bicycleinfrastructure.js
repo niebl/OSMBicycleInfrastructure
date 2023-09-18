@@ -2,9 +2,14 @@ import fetch from "node-fetch";
 import osmtogeojson from "osmtogeojson";
 import { writeFile } from "fs";
 
-import { ENDPOINT_BI } from "./bicycleinfrastructureHelpers/overpassQueryBI.js";
-import { ENDPOINT_NW } from "./bicycleinfrastructureHelpers/overpassQueryNW.js";
-import { ENDPOINT_AA } from "./bicycleinfrastructureHelpers/overpassQueryAA.js";
+import { ENDPOINT_BI as ENDPOINT_BI_MS } from "./bicycleinfrastructureHelpers/overpassQueryBI.js";
+import { ENDPOINT_NW as ENDPOINT_NW_MS } from "./bicycleinfrastructureHelpers/overpassQueryNW.js";
+import { ENDPOINT_AA as ENDPOINT_AA_MS } from "./bicycleinfrastructureHelpers/overpassQueryAA.js";
+
+import { ENDPOINT_BI as ENDPOINT_BI_OS } from "./queries_OS/overpassQueryBI.js";
+import { ENDPOINT_NW as ENDPOINT_NW_OS } from "./queries_OS/overpassQueryNW.js";
+import { ENDPOINT_AA as ENDPOINT_AA_OS } from "./queries_OS/overpassQueryAA.js";
+
 import {
   addAttributes,
   addBikeInfrastructureType,
@@ -15,7 +20,7 @@ import {
   splitTrafficSignalLines,
 } from "./bicycleinfrastructureHelpers/helperFunctions.js";
 
-async function getOSM(ENDPOINT_BI, ENDPOINT_NW, ENDPOINT_AA) {
+async function getOSM(ENDPOINT_BI, ENDPOINT_NW, ENDPOINT_AA, FILENAME) {
   // appraoch API for Bicycle Infrastructure (BI) Data
   console.log("start API-Request BI data...");
   let responseBi = await fetch(ENDPOINT_BI);
@@ -61,14 +66,15 @@ async function getOSM(ENDPOINT_BI, ENDPOINT_NW, ENDPOINT_AA) {
 
   // write data to GeoJSON file
   const geojsonBiTypeString = JSON.stringify(geojsonBiType);
-  writeFile("./bicycleinfrastructure.geojson", geojsonBiTypeString, (err) => {
+  writeFile(FILENAME, geojsonBiTypeString, (err) => {
     if (err) {
       console.log("Error writing file", err);
     } else {
-      console.log("Successfully wrote file");
+      console.log(`Successfully wrote file ${FILENAME}`);
     }
   });
 }
 
 // Execute Function
-getOSM(ENDPOINT_BI, ENDPOINT_NW, ENDPOINT_AA);
+getOSM(ENDPOINT_BI_MS, ENDPOINT_NW_MS, ENDPOINT_AA_MS, "./MS_bicycleinfrastructure.geojson");
+getOSM(ENDPOINT_BI_OS, ENDPOINT_NW_OS, ENDPOINT_AA_OS, "./OS_bicycleinfrastructure.geojson");
