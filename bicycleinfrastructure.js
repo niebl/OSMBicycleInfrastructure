@@ -21,6 +21,7 @@ import {
   duplicateTrafficCalming,
   splitTrafficSignalLines,
 } from "./bicycleinfrastructureHelpers/helperFunctions.js";
+import { simplifyGeoJSON } from "./bicycleinfrastructureHelpers/simplify.js";
 
 console.log("starting bicycle infrastructure fetch script")
 
@@ -67,6 +68,10 @@ async function getOSM(ENDPOINT_BI, ENDPOINT_NW, ENDPOINT_AA, FILENAME) {
   console.log("Calculate parking, cycling, service data for admin areas...");
   geojsonBiType = aggregateBiAdminArea(geojsonAa, geojsonBiType);
   console.log("Calculation completed!");
+
+  // simplify all features
+  console.log("simplifying data")
+  geojsonBiType = simplifyGeoJSON(geojsonBiType, 0.0001, true) 
 
   // write data to GeoJSON file
   const geojsonBiTypeString = JSON.stringify(geojsonBiType);

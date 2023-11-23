@@ -20,6 +20,7 @@
     "@turf/union": "^6.5.0",
     "node-cron": "^3.0.2",
     "node-fetch": "^3.2.10",
-    "osmtogeojson": "^3.0.0-beta.4"
+    "osmtogeojson": "^3.0.0-beta.4",
+    "simplify-js": "^1.2.4"
   }
 }
