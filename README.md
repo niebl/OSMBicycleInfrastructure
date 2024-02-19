@@ -10,3 +10,7 @@ Within the main file bicycleinfrastructure.js the retrieved data can be processe
 2. Always - Thematically (e.g. categorization into bicycle infrastructure type and data cleaning of attributes)
 
 Finally all data is written into a single GeoJSON with the type "FeatureCollection".
+
+## Containerization
+For ease of setup, a dockerfile is added. You may use it to create an image named "bikeinfra"
+afterwards, `docker-compose up` can run the container
