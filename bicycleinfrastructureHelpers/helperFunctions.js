@@ -154,6 +154,11 @@ export function addBikeInfrastructureType(dataBi) {
       dataBi.features[i].properties.bike_infrastructure_type = "train_station";
       continue;
     }
+    // Bus Stops
+    if (["bus_stop"].includes(feature.properties?.railway)) {
+      dataBi.features[i].properties.bike_infrastructure_type = "bus_stop";
+      continue;
+    }
     // Assign nd to remainings
     if (!feature.properties.bike_infrastructure_type) {
       dataBi.features[i].properties.bike_infrastructure_type = "nd";
@@ -696,6 +701,16 @@ export function addAttributes(dataBiType) {
     }
     // Add attributes for train stations
     if (properties.bike_infrastructure_type === "train_station") {
+      // Add name information
+      if (properties.name) {
+        attributesFeature.push({ Name: properties.name });
+      }
+      // Add attributes
+      dataBiType.features[i].properties.attributes = attributesFeature;
+      continue;
+    }
+    // Add attributes for bus stops
+    if (properties.bike_infrastructure_type === "bus_stop") {
       // Add name information
       if (properties.name) {
         attributesFeature.push({ Name: properties.name });
