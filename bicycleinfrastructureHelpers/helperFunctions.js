@@ -155,7 +155,7 @@ export function addBikeInfrastructureType(dataBi) {
       continue;
     }
     // Bus Stops
-    if (["bus_stop"].includes(feature.properties?.railway)) {
+    if (["bus_stop"].includes(feature.properties?.highway)) {
       dataBi.features[i].properties.bike_infrastructure_type = "bus_stop";
       continue;
     }
