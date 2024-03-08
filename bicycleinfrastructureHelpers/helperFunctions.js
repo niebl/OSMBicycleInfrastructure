@@ -1226,6 +1226,21 @@ export function aggregateBiAdminArea(dataAa, dataBiType) {
       adminAreas[i].properties.service.coverage = 0;
     }
 
+    // PUBLIC TRANSPORT
+    //-------------------
+    // Get bus stops within administrative area
+    adminAreas[i].properties.busStops = {};
+    let busStopsWithin = dataBiType.features.filter(
+      (feature) =>
+        feature.properties.bike_infrastructure_type === "bus_stop" &&
+        feature.geometry.type === "Point" &&
+        booleanWithin(feature, singleAa)
+    );
+    for (let busStop of busStopsWithin){
+      busStop.properties.aa = adminAreas[i].properties.name
+    }
+    adminAreas[i].properties.service.busStopsWithin = busStopsWithin.length;
+
     // Test logging
     // console.log(singleAa.properties.name, singleAa);
 
