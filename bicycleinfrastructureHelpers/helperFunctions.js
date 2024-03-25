@@ -870,6 +870,9 @@ export function aggregateBiAdminArea(dataAa, dataBiType) {
         feature.geometry.type === "Point" &&
         booleanWithin(feature, singleAa)
     );
+    for (let parking of parkingWithin){
+      parking.properties.aa = adminAreas[i].properties.name
+    }
     // Count frequency of parking points
     adminAreas[i].properties.parking.freqObjects = parkingWithin.length;
 
@@ -1241,18 +1244,18 @@ export function aggregateBiAdminArea(dataAa, dataBiType) {
     }
     adminAreas[i].properties.service.busStopsWithin = busStopsWithin.length;
 
-        // Get bus stops within administrative area
-        adminAreas[i].properties.trainStations = {};
-        let trainStationsWithin = dataBiType.features.filter(
-          (feature) =>
-            feature.properties.bike_infrastructure_type === "train_station" &&
-            feature.geometry.type === "Point" &&
-            booleanWithin(feature, singleAa)
-        );
-        for (let station of trainStationsWithin){
-          station.properties.aa = adminAreas[i].properties.name
-        }
-        adminAreas[i].properties.service.trainStationsWithin = trainStationsWithin.length;
+    // Get train stations within administrative area
+    adminAreas[i].properties.trainStations = {};
+    let trainStationsWithin = dataBiType.features.filter(
+      (feature) =>
+        feature.properties.bike_infrastructure_type === "train_station" &&
+        feature.geometry.type === "Point" &&
+        booleanWithin(feature, singleAa)
+    );
+    for (let station of trainStationsWithin){
+      station.properties.aa = adminAreas[i].properties.name
+    }
+    adminAreas[i].properties.service.trainStationsWithin = trainStationsWithin.length;
 
     // Test logging
     // console.log(singleAa.properties.name, singleAa);
