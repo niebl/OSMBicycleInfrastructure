@@ -10,6 +10,10 @@ import { ENDPOINT_BI as ENDPOINT_BI_OS } from "./queries_OS/overpassQueryBI.js";
 import { ENDPOINT_NW as ENDPOINT_NW_OS } from "./queries_OS/overpassQueryNW.js";
 import { ENDPOINT_AA as ENDPOINT_AA_OS } from "./queries_OS/overpassQueryAA.js";
 
+import { ENDPOINT_BI as ENDPOINT_BI_LB } from "./queries_LB/overpassQueryBI.js";
+import { ENDPOINT_NW as ENDPOINT_NW_LB } from "./queries_LB/overpassQueryNW.js";
+import { ENDPOINT_AA as ENDPOINT_AA_LB } from "./queries_LB/overpassQueryAA.js";
+
 import cron from 'node-cron'
 
 import {
@@ -85,11 +89,14 @@ async function getOSM(ENDPOINT_BI, ENDPOINT_NW, ENDPOINT_AA, FILENAME) {
 }
 
 // run first time
+
+getOSM(ENDPOINT_BI_LB, ENDPOINT_NW_LB, ENDPOINT_AA_LB, "./out/bicycleinfrastructure_LB");
 getOSM(ENDPOINT_BI_MS, ENDPOINT_NW_MS, ENDPOINT_AA_MS, "./out/bicycleinfrastructure_MS");
 getOSM(ENDPOINT_BI_OS, ENDPOINT_NW_OS, ENDPOINT_AA_OS, "./out/bicycleinfrastructure_OS");
 
 // create cron job
 cron.schedule( '0 */6 * * *', () => {
+  getOSM(ENDPOINT_BI_LB, ENDPOINT_NW_LB, ENDPOINT_AA_LB, "./out/bicycleinfrastructure_LB");
   getOSM(ENDPOINT_BI_MS, ENDPOINT_NW_MS, ENDPOINT_AA_MS, "./out/bicycleinfrastructure_MS");
   getOSM(ENDPOINT_BI_OS, ENDPOINT_NW_OS, ENDPOINT_AA_OS, "./out/bicycleinfrastructure_OS");
 })
