@@ -1185,6 +1185,9 @@ export function aggregateBiAdminArea(dataAa, dataBiType) {
         feature.geometry.type === "Point" &&
         booleanWithin(feature, singleAa)
     );
+    for (let service of shopsWithin){
+      service.properties.aa = adminAreas[i].properties.name
+    }
     adminAreas[i].properties.service.shopsWithin = shopsWithin.length;
 
     // Get shops nearby administrative area
