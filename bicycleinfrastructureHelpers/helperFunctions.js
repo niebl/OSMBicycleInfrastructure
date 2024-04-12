@@ -1190,6 +1190,21 @@ export function aggregateBiAdminArea(dataAa, dataBiType) {
     }
     adminAreas[i].properties.service.shopsWithin = shopsWithin.length;
 
+    //add all other types of service too
+    let serviceWithin = dataBiType.features.filter(
+      (feature) =>
+        (
+          feature.properties.bike_infrastructure_type === "tube_vending_machine" ||
+          feature.properties.bike_infrastructure_type === "bicycle_repair_station" ||
+          feature.properties.bike_infrastructure_type === "bicycle_rental"
+        ) &&
+        feature.geometry.type === "Point" &&
+        booleanWithin(feature, singleAa)
+    );
+    for (let service of serviceWithin){
+      service.properties.aa = adminAreas[i].properties.name
+    }
+
     // Get shops nearby administrative area
     let singleAaBuffer = buffer(singleAa, 700, { units: "meters" });
     let singleAaDifference = difference(singleAaBuffer, singleAa);
