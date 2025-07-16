@@ -1,3 +1,3 @@
 #!/bin/bash
 mkdir out
-./serve.py & node bicycleinfrastructure.js && fg
+python3 serve.py & node bicycleinfrastructure.js && fg

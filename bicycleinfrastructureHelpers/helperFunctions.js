@@ -842,6 +842,44 @@ export function appendAdminAreatoBI(dataAa, dataBiType) {
 }
 
 /**
+ * Utility function to ensure polygon linear rings are closed.
+ * If the first and last coordinates are not the same, close the ring.
+ * @param {Array} coordinates - Array of coordinates for a linear ring
+ * @returns {Array} - Closed linear ring coordinates
+ */
+
+function closeLinearRing(coordinates) {
+  if (
+    coordinates.length > 0 &&
+    (coordinates[0][0] !== coordinates[coordinates.length - 1][0] ||
+      coordinates[0][1] !== coordinates[coordinates.length - 1][1])
+  ) {
+    coordinates.push(coordinates[0]);
+  }
+  return coordinates;
+}
+
+/**
+ * Sanitize a polygon or multipolygon feature to ensure all linear rings are closed.
+ * @param {Object} feature - GeoJSON Polygon or MultiPolygon feature
+ * @returns {Object} - Sanitized feature with closed linear rings
+ */
+function sanitizePolygon(feature) {
+  if (!feature || !feature.geometry) return feature;
+
+  const geom = feature.geometry;
+
+  if (geom.type === "Polygon") {
+    geom.coordinates = geom.coordinates.map((ring) => closeLinearRing(ring));
+  } else if (geom.type === "MultiPolygon") {
+    geom.coordinates = geom.coordinates.map((polygon) =>
+      polygon.map((ring) => closeLinearRing(ring))
+    );
+  }
+  return feature;
+}
+
+/**
  * aggregateBiAdminArea aggregates bike infrastructure data within each
  * administrative Area regarding parking, cycling, and services
  * @param FeatureCollection
@@ -863,6 +901,9 @@ export function aggregateBiAdminArea(dataAa, dataBiType) {
     // PARKING DATA
     //--------------
     // Select parking points within adminArea
+    // Sanitize polygon to ensure closed linear rings before buffering
+    singleAa = sanitizePolygon(singleAa);
+
     adminAreas[i].properties.parking = {};
     let parkingWithin = dataBiType.features.filter(
       (feature) =>
@@ -1206,8 +1247,23 @@ export function aggregateBiAdminArea(dataAa, dataBiType) {
     }
 
     // Get shops nearby administrative area
-    let singleAaBuffer = buffer(singleAa, 700, { units: "meters" });
-    let singleAaDifference = difference(singleAaBuffer, singleAa);
+    // let singleAaBuffer = buffer(singleAa, 700, { units: "meters" });
+    let singleAaBuffer;
+    try {
+      singleAaBuffer = buffer(singleAa, 700, { units: "meters" });
+    } catch (error) {
+      console.error("Buffer error on admin area:", singleAa.properties?.name, error);
+      // Fallback: use original polygon without buffer or skip
+      singleAaBuffer = singleAa;
+    }
+    // let singleAaDifference = difference(singleAaBuffer, singleAa);
+    let singleAaDifference;
+    try {
+      singleAaDifference = difference(singleAaBuffer, singleAa);
+    } catch (error) {
+      console.error("Difference error on admin area:", singleAa.properties?.name, error);
+      singleAaDifference = null;
+    }
     let shopsNearby = dataBiType.features.filter(
       (feature) =>
         feature.properties.bike_infrastructure_type === "bicycle_shop" &&

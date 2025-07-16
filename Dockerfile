@@ -9,4 +9,5 @@ RUN npm install
 #CMD ["node", "bicycleinfrastructure.js"]
 #CMD ["./serve.py"]
 CMD ["./start.sh"]
+# CMD ["bash", "/app/start.sh"]
 EXPOSE 8000
