@@ -26,6 +26,7 @@
 
 export const ENDPOINT_AA =
   'https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%3Barea%5B%22name%22%3D%22M%C3%BCnster%22%5D%5B%22de%3Aplace%22%3D%22city%22%5D%2D%3E%2EsearchArea%3B%28relation%5B%22name%22%3D%22%7Bcity%7D%22%5D%5B%22de%3Aplace%22%3D%22city%22%5D%3Brelation%5B%22admin%5Flevel%22%3D%2210%22%5D%28area%2EsearchArea%29%3B%29%3Bout%3B%3E%3E%3Bout%20skel%20qt%3B%0A';
+  
 
 // PRETTY OVERPASS QL for administrative areas
 // [out:json]
